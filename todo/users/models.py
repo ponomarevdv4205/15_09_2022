@@ -8,3 +8,4 @@ class User(models.Model):
     lastname = models.CharField(max_length=64)
     # email = models.PositiveIntegerField()
     email = models.EmailField(('email address'), unique=True,)
+    ###
