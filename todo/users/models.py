@@ -6,6 +6,4 @@ class User(models.Model):
     username = models.CharField(max_length=64)
     firstname = models.CharField(max_length=64)
     lastname = models.CharField(max_length=64)
-    # email = models.PositiveIntegerField()
     email = models.EmailField(('email address'), unique=True,)
-    ###
