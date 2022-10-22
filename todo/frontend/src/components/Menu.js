@@ -6,7 +6,7 @@ function Menu() {
         <div class="top">
             <div class="container top__box">
                 <div class="top__info">
-                    <h1 class="zag__level__1">Web-сервис для работы с TODO-заметками</h1>
+                    <h1 class="zag__level__1">Web-сервис для работы с ToDo-заметками</h1>
                         <p class="text">
                             Проект на базе Django REST framework
                         </p>
