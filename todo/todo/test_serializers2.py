@@ -1,34 +1,34 @@
 from rest_framework import serializers
-from test_models import Author, Book, Biography
+from test_models import User, Project, ToDo
 
 
-class AuthorSerializer(serializers.Serializer):
+class UserSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=128)
-    birthday_year = serializers.IntegerField()
+    Email = serializers.CharField(max_length=128)
 
 
-class BiographySerializer(serializers.Serializer):
+class ToDoSerializer(serializers.Serializer):
     text = serializers.CharField(max_length=1024)
-    author = AuthorSerializer()
+    user = UserSerializer()
 
 
-class BookSerializer(serializers.Serializer):
+class ProjectSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=128)
-    authors = AuthorSerializer(many=True)
+    users = UserSerializer(many=True)
 
 
-author1 = Author('Грин', 1880)
-serializer = AuthorSerializer(author1)
+user1 = User('Dima_1', 'ponomarevdv4205_1@yandex.ru')
+serializer = UserSerializer(user1)
 print(serializer.data)
 
-biography = Biography('Текст биографии', author1)
-serializer = BiographySerializer(biography)
+todo = ToDo('Текст заметки', user1)
+serializer = ToDoSerializer(todo)
 print(serializer.data)
 
-author2 = Author('Пушкин', 1799)
-book = Book('Некоторая книга', [author1, author2])
+user2 = User('Dima_2', 'ponomarevdv4205_2@yandex.ru')
+book = Project('Некоторая книга', [user1, user2])
 
-serializer = BookSerializer(book)
+serializer = ProjectSerializer(book)
 print(serializer.data)
 
 # cicle

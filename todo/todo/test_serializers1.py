@@ -4,35 +4,36 @@ from rest_framework import serializers
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
 
-from test_models import Author
+from test_models import User
 
 
-class AuthorSerializer(serializers.Serializer):
+class UserSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=128)
-    birthday_year = serializers.IntegerField()
+    Email = serializers.CharField(max_length=128)
 
     def create(self, validated_data):
-        return Author(**validated_data)
+        return User(**validated_data)
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
-        instance.birthday_year = validated_data.get('birthday_year', instance.birthday_year)
+        instance.Email = validated_data.get('Email', instance.Email)
         return instance
 
-    # def validate_birthday_year(self, value):
-    #     if value < 5:
-    #         raise serializers.ValidationError('Год рождения не может быть отрицательным')
-    #     return value
+    # def validate_Email(self, value):
+        if len(value) < 100:
+            raise serializers.ValidationError('Email уже большой!')
+        return value
 
-    def validate(self, attrs):
-        if attrs['name'] == 'Толстой' and attrs['birthday_year'] != 1828:
-            raise serializers.ValidationError('Неверный год рождения Толстого')
-        return attrs
+    # Закоментировали как в лекции
+    # def validate(self, attrs):
+    #     if attrs['name'] == 'Dima_1' and attrs['Email'] != 'ponomarevdv4205_1@yandex.ru':
+    #         raise serializers.ValidationError('Неверный Email')
+    #     return attrs
 
 
 def start():
-    author = Author('Толстой', 1828)
-    serializer = AuthorSerializer(author)
+    user = User('Dima_1', 'ponomarevdv4205_1@yandex.ru')
+    serializer = UserSerializer(user)
 
     renderer = JSONRenderer()
     json_bytes = renderer.render(serializer.data)
@@ -40,44 +41,44 @@ def start():
     stream = io.BytesIO(json_bytes)
     data = JSONParser().parse(stream)
 
-    serializer = AuthorSerializer(data=data)
+    serializer = UserSerializer(data=data)
     serializer.is_valid()
     # Продолжение скрипта №1
 
     # Создание
-    author = serializer.save()
-    print(type(author))
-    print(author)
+    user = serializer.save()
+    print(type(user))
+    print(user)
 
     # Обновление всех данных
-    data = {'name': 'Пушкин', 'birthday_year': 1880}
-    serializer = AuthorSerializer(author, data=data)
+    data = {'name': 'Dima_1', 'Email': 'ponomarevdv4205_1@yandex.ru'}
+    serializer = UserSerializer(user, data=data)
     serializer.is_valid()
-    author = serializer.save()
-    print(author)
+    user = serializer.save()
+    print(user)
 
     # Обновление частичное
-    # data = {'birthday_year': 1828}
-    # serializer = AuthorSerializer(author, data=data, partial=True)
-    # serializer.is_valid()
-    # author = serializer.save()
-    # print(f'{author} {author.birthday_year}')
+    data = {'Email': 'ponomarevdv4205_1@yandex.ru'}
+    serializer = UserSerializer(user, data=data, partial=True)
+    serializer.is_valid()
+    user = serializer.save()
+    print(f'{user} {user.Email}')
 
     # Проверка 1го поля
-    # data = {'birthday_year': 1}
-    # serializer = AuthorSerializer(author, data=data, partial=True)
-    # if  serializer.is_valid():
-    #     author = serializer.save()
-    #     print(f'{author} {author.birthday_year}')
-    # else:
-    #     print(serializer.errors)
+    data = {'Email': 'ponomarevdv4205_1@yandex.ru'}
+    serializer = UserSerializer(user, data=data, partial=True)
+    if serializer.is_valid():
+        user = serializer.save()
+        print(f'{user} {user.Email}')
+    else:
+        print(serializer.errors)
 
     # Проверка всех полей
-    data = {'name': 'Толстой', 'birthday_year': 2000}
-    serializer = AuthorSerializer(author, data=data)
+    data = {'name': 'Dima_1', 'Email': 'ponomarevdv4205_1@yandex.ru'}
+    serializer = UserSerializer(user, data=data)
     if serializer.is_valid():
-        author = serializer.save()
-        print(author)
+        user = serializer.save()
+        print(user)
     else:
         print(serializer.errors)
 
