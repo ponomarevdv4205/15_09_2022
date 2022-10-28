@@ -13,7 +13,7 @@ class UserSerializer(serializers.Serializer):
 
 
 def start():
-    # Преобразования
+    # Преобразования:
     user = User('Dima', 'ponomarevdv4205@yandex.ru')
     serializer = UserSerializer(user)
     print(serializer.data)

@@ -31,4 +31,4 @@ book = Project('Некоторая книга', [user1, user2])
 serializer = ProjectSerializer(book)
 print(serializer.data)
 
-# cicle
+# cicle:

@@ -24,7 +24,7 @@ class UserSerializer(serializers.Serializer):
             raise serializers.ValidationError('Email уже большой!')
         return value
 
-    # Закоментировали как в лекции
+    # Закоментировали как в лекции:
     # def validate(self, attrs):
     #     if attrs['name'] == 'Dima_1' and attrs['Email'] != 'ponomarevdv4205_1@yandex.ru':
     #         raise serializers.ValidationError('Неверный Email')
