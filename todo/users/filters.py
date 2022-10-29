@@ -7,4 +7,4 @@ class ProjectFilter(filters.FilterSet):
 
     class Meta:
         model = Project
-        fields = ['name', 'id']
+        fields = ['name']
