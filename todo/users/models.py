@@ -25,8 +25,8 @@ class Project(models.Model):
 
 class ToDo(models.Model):
     text = models.TextField(blank=True, null=True)
-    project = models.OneToOneField(Project, on_delete=models.CASCADE, null=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
+    project = models.ManyToManyField(Project)
+    user = models.ManyToManyField(User)
     created = models.DateTimeField(auto_now_add=True, null=True)
     modified = models.DateTimeField(auto_now=True, null=True)
     is_active = models.BooleanField(default=True, null=True)
