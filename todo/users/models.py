@@ -14,6 +14,7 @@ class User(models.Model):
 
 
 class Project(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=128)
     url = models.URLField(default='url')
     users = models.ManyToManyField(User)
