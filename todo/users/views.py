@@ -10,7 +10,7 @@ from .models import User, Project, ToDo
 
 
 class UserModelViewSet(ModelViewSet):
-    renderer_classes = [JSONRenderer]
+    # renderer_classes = [JSONRenderer] # Коммент специально
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
 

@@ -18,7 +18,7 @@ class ToDoHyperlinkedModelSerializer(HyperlinkedModelSerializer):
 
 
 class ProjectModelSerializer(ModelSerializer):
-    # users = StringRelatedField(many=True)
+    # users = StringRelatedField(many=True) #Делает список юзеров в Тексте
 
     class Meta:
         model = Project
