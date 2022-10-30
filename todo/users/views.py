@@ -6,10 +6,11 @@ from .filters import ProjectFilter
 from .models import User, Project, ToDo
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.renderers import JSONRenderer
 
 
 class UserViewSet(ListModelMixin, UpdateModelMixin, GenericViewSet):
-    # renderer_classes = [JSONRenderer] # Коммент специально
+    # renderer_classes = [JSONRenderer] # Коммент специально, т.к. выводит формат JSON
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
 
@@ -36,3 +37,20 @@ class ProjectDjangoFilterViewSet(ModelViewSet, LimitOffsetPagination):
     limit = LimitOffsetPagination
     limit.default_limit = 10
     pagination_class = limit
+
+#-------------------- Обычное отображение -------------------------------------
+
+class UserModelViewSet(ModelViewSet):
+    # renderer_classes = [JSONRenderer] # Коммент специально, т.к. выводит формат JSON
+    queryset = User.objects.all()
+    serializer_class = UserModelSerializer
+
+
+class ProjectModelViewSet(ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectModelSerializer
+
+#
+# class ToDoModelViewSet(ModelViewSet):
+#     queryset = ToDo.objects.all()
+#     serializer_class = ToDoHyperlinkedModelSerializer
