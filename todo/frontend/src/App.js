@@ -5,12 +5,14 @@ import UserList from './components/User.js';
 import Menu from './components/Menu.js';
 import Footer from './components/Footer.js';
 import axios from 'axios';
+import ProjectList from "./components/Project";
 
 class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            'users': []
+            'users': [],
+            'projects': [],
         }
     }
 
@@ -24,6 +26,13 @@ class App extends React.Component {
                     }
                 )
             }).catch(error => console.log(error))
+
+        axios.get('http://127.0.0.1:8007/api/projects/').then(response => {
+            const projects = response.data
+            this.setState({
+                'projects': projects
+            })
+        }).catch(error => console.log(error))
     }
 
     render () {
@@ -36,6 +45,7 @@ class App extends React.Component {
                         <h3 class="h3">Список пользователей:</h3>
                         <div class="elements">
                             <UserList users={this.state.users} />
+                            <ProjectList projects={this.state.projects} />
                         </div>
                     </div>
                 </div>

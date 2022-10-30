@@ -1,5 +1,5 @@
 import React from 'react'
-import './Styles.css'
+//import './Styles.css'
 
 const UserItem = ({user}) => {
     return (
