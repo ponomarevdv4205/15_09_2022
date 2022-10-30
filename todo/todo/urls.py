@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter, SimpleRouter
 # ,UserModelViewSet, ProjectModelViewSet,
-from users.views import UserViewSet, ToDoModelViewSet, ProjectDjangoFilterViewSet, UserModelViewSet, ProjectModelViewSet
+from users.views import UserViewSet, ToDoModelViewSet, ProjectDjangoFilterViewSet, \
+    UserModelViewSet, ProjectModelViewSet, ToDoDjangoFilterViewSet
 # from rest_framework import permissions
 # from drf_yasg.views import get_schema_view
 # from drf_yasg import openapi
@@ -26,9 +27,10 @@ router = DefaultRouter()
 # router = SimpleRouter()
 router.register('users', UserModelViewSet) # Обычное отображение
 router.register('projects', ProjectModelViewSet) # Обычное отображение
-router.register('todo', ToDoModelViewSet) # Обычное отображение
+router.register('todos', ToDoModelViewSet) # Обычное отображение
 # router.register('users', UserViewSet) # Настроенное отображение / отображение с фильтрами
 # router.register('projects', ProjectDjangoFilterViewSet) # Настроенное отображение / отображение с фильтрами
+# router.register('todos', ToDoDjangoFilterViewSet) # Настроенное отображение / отображение с фильтрами
 
 urlpatterns = [
     path('admin/', admin.site.urls),

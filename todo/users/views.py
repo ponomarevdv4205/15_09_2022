@@ -15,7 +15,7 @@ class UserViewSet(ListModelMixin, UpdateModelMixin, GenericViewSet):
     serializer_class = UserModelSerializer
 
 
-class ToDoModelViewSet(ModelViewSet, LimitOffsetPagination):
+class ToDoDjangoFilterViewSet(ModelViewSet, LimitOffsetPagination):
     queryset = ToDo.objects.filter(is_active=True)
     serializer_class = ToDoHyperlinkedModelSerializer
     filterset_fields = ['project']
@@ -38,8 +38,8 @@ class ProjectDjangoFilterViewSet(ModelViewSet, LimitOffsetPagination):
     limit.default_limit = 10
     pagination_class = limit
 
-#-------------------- Обычное отображение -------------------------------------
 
+# -------------------- Обычное отображение -------------------------------------
 class UserModelViewSet(ModelViewSet):
     # renderer_classes = [JSONRenderer] # Коммент специально, т.к. выводит формат JSON
     queryset = User.objects.all()
@@ -50,7 +50,7 @@ class ProjectModelViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectModelSerializer
 
-#
-# class ToDoModelViewSet(ModelViewSet):
-#     queryset = ToDo.objects.all()
-#     serializer_class = ToDoHyperlinkedModelSerializer
+
+class ToDoModelViewSet(ModelViewSet):
+    queryset = ToDo.objects.all()
+    serializer_class = ToDoHyperlinkedModelSerializer
