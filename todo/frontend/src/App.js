@@ -113,7 +113,7 @@ class App extends React.Component {
                             <Route path=':projectId' element={<TodoProject todos={this.state.todos} />} />
                         </Route>
 
-                        <Route path='/todos' element={<TodoList todos={this.state.todos} />} />
+//                        <Route path='/todos' element={<TodoList todos={this.state.todos} />} />
 
                         <Route path='*' element={<NotFound404 />} />
 
