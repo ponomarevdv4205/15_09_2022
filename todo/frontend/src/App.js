@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import UserList from './components/User.js';
+import UserProjects from './components/UserProjects';
 import Menu from './components/Menu.js';
 import Footer from './components/Footer.js';
 import ProjectList from "./components/Project";
@@ -9,6 +10,8 @@ import axios from 'axios';
 import {BrowserRouter, Route, Routes, Link, Navigate} from "react-router-dom";
 import NotFound404 from "./components/NotFound404";
 import ProjectsUsers from "./components/ProjectsUsers";
+import TodoProject from './components/Todos';
+import TodoList from './components/Todos';
 
 class App extends React.Component {
     constructor(props) {
@@ -16,6 +19,8 @@ class App extends React.Component {
         this.state = {
             'users': [],
             'projects': [],
+            'todos': [],
+//            'tabs': [],
         }
     }
 
@@ -40,6 +45,23 @@ class App extends React.Component {
                 )
         }).catch(error => console.log(error))
 
+        axios.get('http://127.0.0.1:8000/api/todos/')
+            .then(response => {
+                const todos = response.data
+                    this.setState(
+                    {
+                        'todos': todos
+                    }
+                )
+        }).catch(error => console.log(error))
+
+//        const tabs = [{
+//            'user': 'user',
+//            'project': 'project',
+//            'todo': 'todo'
+//        }]
+//        this.setState({ 'tabs': tabs })
+//
     }
 
 //    render () {
@@ -73,17 +95,27 @@ class App extends React.Component {
                         <li>
                             <Link to='/projects'>Projects</Link>
                         </li>
+                        <li>
+                            <Link to='/todos'>ToDos</Link>
+                        </li>
                     </nav>
 
                     <Routes>
-                        <Route exact path='/' element={<Navigate to='/users'/>}/>
-                        <Route path='/users'> # Передача Проектов конкретного Юзера
-                            <Route index element={<UserList users={this.state.users}/>}/>
-                            <Route path=':userId' element={<ProjectsUsers projects={this.state.projects}/>}/>
-                        </Route> # Конец передачи Проектов конкретного Юзера
 
-                        <Route exact path='/projects' element={<ProjectList projects={this.state.projects}/>}/>
-                        <Route path='*' element={<NotFound404/>}/>
+                        <Route exect path='/' element={<Navigate to='/users' />} />
+                        <Route path='/users'>
+                            <Route index element={<UserList users={this.state.users} />} />
+                            <Route path=':userId' element={<UserProjects projects={this.state.projects} />} />
+                        </Route>
+
+                        <Route path='/projects'>
+                            <Route index element={<ProjectList projects={this.state.projects} />} />
+                            <Route path=':projectId' element={<TodoProject todos={this.state.todos} />} />
+                        </Route>
+
+                        <Route path='/todos' element={<TodoList todos={this.state.todos} />} />
+
+                        <Route path='*' element={<NotFound404 />} />
 
                     </Routes>
                 </BrowserRouter>
