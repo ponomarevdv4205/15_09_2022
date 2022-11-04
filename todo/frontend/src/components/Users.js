@@ -1,33 +1,29 @@
 import React from 'react';
-import './Styles.css';
-import {Link} from "react-router-dom";
+import {Link} from 'react-router-dom';
 
 const UserItem = ({user}) => {
     return (
         <tr>
             <td>
                 <Link to={`/users/${user.id}`}>
-                    {user.firstname}
+                    {user.username}
                 </Link>
             </td>
+            <td>{user.firstname}</td>
             <td>{user.lastname}</td>
             <td>{user.email}</td>
-        </tr>
+        </tr >
     )
 }
 
-
-const UserList = (
-    {
-        users
-    }
-) => {
+const UserList = ({users}) => {
     return (
         <table>
+            <th>Username</th>
             <th>First name</th>
             <th>Last name</th>
             <th>Email</th>
-            {users.map((user_) => <UserItem user={user_}/>)}
+            {users.map((user_) => <UserItem user={user_} />)}
         </table>
     )
 }
