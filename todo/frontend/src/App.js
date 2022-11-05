@@ -21,7 +21,7 @@ import './App.css';
 import React from "react";
 import UserList from './components/Users';
 import NotFound404 from './components/NotFound404';
-import ProjectList from './components/Projects';
+import ProjectList from './components/Project';
 import UserProjects from './components/UserProjects';
 import TodoProject from './components/Todos';
 import TodoList from './components/Todos';
@@ -36,7 +36,7 @@ class App extends React.Component {
         super(props)
         this.state = {
             'users': [],
-            'tabs': [],
+//            'tabs': [],
             'projects': [],
             'todos': [],
             'token': [],
@@ -47,8 +47,9 @@ class App extends React.Component {
         const data = { username: username, password: password }
         axios.post('http://127.0.0.1:8000/api-token-auth/', data).then(response => {
             this.set_token(response.data['token'], username)
-        }).catch(error => alert('Invalid login or password'))
+        }).catch(error => alert('Invalid login or password!!!'))
     }
+
     set_token(token, username) {
         const cookies = new Cookies()
         cookies.set('token', token)
@@ -65,7 +66,6 @@ class App extends React.Component {
     }
 
     is_auth() {
-
         return !!this.state.token, this.state.username
     }
 
