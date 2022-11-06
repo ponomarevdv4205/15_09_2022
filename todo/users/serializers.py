@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, HyperlinkedModelSerializer, StringRelatedField
-
+from django.contrib.auth.hashers import make_password
 from .models import User, Project, ToDo
 
 
@@ -7,8 +7,10 @@ class UserModelSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
-        # fields = ('firstname','lastname')
-        # exclude = ('firstname',)
+
+    def create(self, validated_data):
+        validated_data['password'] = make_password(validated_data['password'])
+        return super(self, UserModelSerializer).create(validated_data)
 
 
 class ToDoHyperlinkedModelSerializer(HyperlinkedModelSerializer):

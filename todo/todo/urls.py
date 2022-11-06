@@ -38,11 +38,12 @@ Including another URLconf
 #     path('api-auth/', include('rest_framework.urls')), # Это включает авторизацию
 # ]
 
+################################################################################################################
 from django.contrib import admin
 from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter
 # ,CustomUserModelViewSet, ProjectModelViewSet,
-from users.views import UserViewSet, ToDoModelViewSet, ProjectDjangoFilterViewSet
+from users.views import UserViewSet, ToDoModelViewSet, ProjectDjangoFilterViewSet, UserModelViewSet, ProjectModelViewSet
 from rest_framework import permissions
 from rest_framework.authtoken.views import obtain_auth_token
 # from drf_yasg.views import get_schema_view
@@ -53,12 +54,11 @@ from rest_framework_simplejwt.views import (
 )
 
 router = DefaultRouter()
-router.register('users', UserViewSet)
+router.register('users', UserViewSet) ##
 # router.register('users', CustomUserModelViewSet)
 # router.register('projects', ProjectModelViewSet)
-router.register('projects', ProjectDjangoFilterViewSet)
-router.register('todo', ToDoModelViewSet)
-
+router.register('projects', ProjectDjangoFilterViewSet) ##
+router.register('todo', ToDoModelViewSet) ##
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -68,3 +68,4 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
+##################################################################################################################

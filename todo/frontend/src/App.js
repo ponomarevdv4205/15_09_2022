@@ -79,7 +79,7 @@ class App extends React.Component {
     get_headers() {
         let headers = {
             'Content-Type': 'application/json'
-            // "Access-Control-Allow-Origin": "*"
+//            "Access-Control-Allow-Origin": "*"
         };
 
         if (this.is_auth()) {
@@ -160,7 +160,7 @@ class App extends React.Component {
 
 
                         <Route path='*' element={<NotFound404 />} />
-                        <Route path="/projects2" element={<Navigate replace to="/projects" />} />
+//                        <Route path="/projects2" element={<Navigate replace to="/projects" />} />
                     </Routes>
 
                 </BrowserRouter>
