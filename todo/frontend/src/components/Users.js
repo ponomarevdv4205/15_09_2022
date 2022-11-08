@@ -1,7 +1,7 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const UserItem = ({user}) => {
+const UserItem = ({ user }) => {
     return (
         <tr>
             <td>
@@ -16,7 +16,7 @@ const UserItem = ({user}) => {
     )
 }
 
-const UserList = ({users}) => {
+const UserList = ({ users }) => {
     return (
         <table>
             <th>Username</th>
@@ -29,3 +29,4 @@ const UserList = ({users}) => {
 }
 
 export default UserList
+

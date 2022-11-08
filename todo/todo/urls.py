@@ -43,7 +43,8 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter
 # ,CustomUserModelViewSet, ProjectModelViewSet,
-from users.views import UserViewSet, ToDoModelViewSet, ProjectDjangoFilterViewSet, UserModelViewSet, ProjectModelViewSet
+from users.views import ToDoModelViewSet, ProjectDjangoFilterViewSet, UserModelViewSet, ProjectModelViewSet\
+    # , UserViewSet
 from rest_framework import permissions
 from rest_framework.authtoken.views import obtain_auth_token
 # from drf_yasg.views import get_schema_view
@@ -54,7 +55,8 @@ from rest_framework_simplejwt.views import (
 )
 
 router = DefaultRouter()
-router.register('users', UserViewSet) ##
+# router.register('users', UserViewSet) ##
+router.register('users', UserModelViewSet) ##
 # router.register('users', CustomUserModelViewSet)
 # router.register('projects', ProjectModelViewSet)
 router.register('projects', ProjectDjangoFilterViewSet) ##
