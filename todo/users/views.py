@@ -6,9 +6,6 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import AllowAny, BasePermission
 from .filters import ProjectFilter
 from .models import User, Project, ToDo
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.renderers import JSONRenderer
 from rest_framework.settings import api_settings
 
 
@@ -17,18 +14,16 @@ class AdminOnly(BasePermission):
         return request.user.is_superuser
 
 
-# class UserViewSet(RetrieveModelMixin,
+# class CustomUserViewSet(RetrieveModelMixin,
 #                         ListModelMixin,
 #                         UpdateModelMixin,
 #                         GenericViewSet):
-#     # permission_classes = [AllowAny]
-#     queryset = User.objects.all()
-#     serializer_class = UserModelSerializer
-
-
-class UserModelViewSet(ModelViewSet):
+# permission_classes = [AllowAny]
+class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
+
+
 class CustomLimitOffsetPagination(LimitOffsetPagination):
 
     def __init__(self, default_limit=api_settings.PAGE_SIZE, *args, **kwargs):
@@ -70,22 +65,3 @@ class ProjectDjangoFilterViewSet(ViewPaginatorMixin, ModelViewSet):
     filterset_class = ProjectFilter
     paginate_limit = 2
     pagination_class = CustomLimitOffsetPagination
-
-
-# -------------------- Обычное отображение -------------------------------------
-class UserModelViewSet(ModelViewSet):
-    # renderer_classes = [JSONRenderer] # Коммент специально, т.к. выводит формат JSON
-    queryset = User.objects.all()
-    serializer_class = UserModelSerializer
-
-
-class ProjectModelViewSet(ModelViewSet):
-    queryset = Project.objects.all()
-    serializer_class = ProjectModelSerializer
-
-
-# class ToDoModelViewSet(ModelViewSet):
-#     queryset = ToDo.objects.all()
-#     serializer_class = ToDoHyperlinkedModelSerializer
-
-#############################################################################################################

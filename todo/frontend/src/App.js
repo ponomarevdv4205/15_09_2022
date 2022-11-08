@@ -17,6 +17,7 @@
 //        )
 //    }
 
+// import logo from './logo.svg';
 import './App.css';
 import React from "react";
 import UserList from './components/Users';
@@ -36,7 +37,7 @@ class App extends React.Component {
         super(props)
         this.state = {
             'users': [],
-//            'tabs': [],
+            'tabs': [],
             'projects': [],
             'todos': [],
             'token': [],
@@ -45,15 +46,16 @@ class App extends React.Component {
 
     get_token(username, password) {
         const data = { username: username, password: password }
-        axios.post('http://127.0.0.1:8000/api-token-auth/', data).then(response => {
-            this.set_token(response.data['token'], username)
-        }).catch(error => alert('Invalid login or password!!!'))
+        axios.post('http://127.0.0.1:8000/api/token/', data).then(response => {
+            this.set_token(response.data['access'], username)
+        }).catch(error => alert('Invalid login or password'))
     }
 
     set_token(token, username) {
         const cookies = new Cookies()
         cookies.set('token', token)
         cookies.set('username', username)
+        console.log(cookies);
         this.setState({ 'token': token }, () => this.load_data())
         this.setState({ 'username': username })
 
@@ -66,6 +68,7 @@ class App extends React.Component {
     }
 
     is_auth() {
+
         return !!this.state.token, this.state.username
     }
 
@@ -79,11 +82,10 @@ class App extends React.Component {
     get_headers() {
         let headers = {
             'Content-Type': 'application/json'
-//            "Access-Control-Allow-Origin": "*"
         };
 
         if (this.is_auth()) {
-            headers['Authorization'] = 'Token ' + this.state.token
+            headers['Authorization'] = 'Bearer ' + this.state.token
         }
         return headers
     }
@@ -160,7 +162,7 @@ class App extends React.Component {
 
 
                         <Route path='*' element={<NotFound404 />} />
-//                        <Route path="/projects2" element={<Navigate replace to="/projects" />} />
+                        <Route path="/projects2" element={<Navigate replace to="/projects" />} />
                     </Routes>
 
                 </BrowserRouter>
