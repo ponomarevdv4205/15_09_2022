@@ -1,13 +1,16 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
+# class User(AbstractUser):
 class User(models.Model):
-    username = models.CharField(max_length=128)
+    username = models.CharField(max_length=128, unique=True)
     firstname = models.CharField(max_length=128)
     lastname = models.CharField(max_length=128)
-    email = models.EmailField(('Email address'), unique=True, )
+    email = models.EmailField(_('email address'), unique=True)
+    password = models.CharField(max_length=128, null=True)
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
@@ -25,7 +28,7 @@ class Project(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=128)
     url = models.URLField(default='url')
-    users = models.ManyToManyField(User)
+    users = models.ManyToManyField(User, related_name="projects")
 
     def __str__(self):
         return self.name

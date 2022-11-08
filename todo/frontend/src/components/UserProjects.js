@@ -12,9 +12,8 @@ const ProjectItem = ({project}) => {
     )
 }
 
-const UserProjects = ({projects}) => {
-    let {userId} = useParams()
-    console.log(userId)
+const UserProjects = ({ projects }) => {
+    let { userId } = useParams()
     let filter_projects = projects.filter((project) => project.users.includes(parseInt(userId)))
     return (
         <table>
