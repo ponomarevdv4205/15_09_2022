@@ -85,7 +85,8 @@ class App extends React.Component {
         };
 
         if (this.is_auth()) {
-            headers['Authorization'] = 'Bearer ' + this.state.token
+            headers['Authorization'] = 'Token ' + this.state.token
+//            headers['Authorization'] = 'Bearer ' + this.state.token
         }
         return headers
     }
@@ -94,7 +95,7 @@ class App extends React.Component {
         const headers = this.get_headers()
         axios.get('http://127.0.0.1:8000/api/users/', { headers }).then(response => {
             this.setState({
-                'users': response.data.results
+                'user': response.data.results
             })
         }).catch(error => console.log(error))
 
@@ -120,7 +121,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        // this.load_data()
+//         this.load_data()
         this.get_token_from_storage()
     }
 
