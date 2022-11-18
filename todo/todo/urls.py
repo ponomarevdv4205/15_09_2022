@@ -42,7 +42,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter
-from users.views import UserViewSet, ToDoModelViewSet, ProjectDjangoFilterViewSet
+from users.views import UserViewSet, ToDoModelViewSet, ProjectDjangoFilterViewSet, UserModelViewSet, ProjectModelViewSet
 from rest_framework import permissions
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
@@ -51,9 +51,12 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 
 router = DefaultRouter()
-router.register('users', UserViewSet)
-router.register('projects', ProjectDjangoFilterViewSet)
-router.register('todo', ToDoModelViewSet)
+# router.register('users', UserViewSet)
+# router.register('projects', ProjectDjangoFilterViewSet)
+# router.register('todo', ToDoModelViewSet)
+router.register('users', UserModelViewSet) # Обычное отображение
+router.register('projects', ProjectModelViewSet) # Обычное отображение
+router.register('todo', ToDoModelViewSet) # Обычное отображение
 
 # schema_view = get_schema_view(
 #     openapi.Info(
