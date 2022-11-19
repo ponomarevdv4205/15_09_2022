@@ -1,4 +1,3 @@
-###########################################################################################################
 from rest_framework.serializers import ModelSerializer, HyperlinkedModelSerializer, StringRelatedField
 from django.contrib.auth.hashers import make_password
 from .models import User, Project, ToDo
