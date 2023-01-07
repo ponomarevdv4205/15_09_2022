@@ -1,126 +1,72 @@
-from .models import User, Project, ToDo
-from .views import UserViewSet
-
-from mixer.backend.django import mixer
-from rest_framework.test import APIRequestFactory, force_authenticate, APIClient, APISimpleTestCase, APITestCase
-from urllib import response
+import json
 from django.test import TestCase
 from rest_framework import status
-
-DJANGO_SETTINGS_MODULE = 'config/settings'
-
-
-# from django.contrib.auth.models import User
+from rest_framework.test import APIRequestFactory, force_authenticate, APIClient, APISimpleTestCase, APITestCase
+from mixer.backend.django import mixer
+from django.contrib.auth.models import auth
+from users.models import User
+from .views import UserViewSet
+from .models import Project, ToDo
 
 
 class TestUserViewSet(TestCase):
 
-    def setUp(self):
-        self.url = '/api/users/'
-        self.users = {
-            "id": 2,
-            "username": "FuckingSherlock",
-            "firstname": "Sherlock",
-            "lastname": "Fucking",
-            "email": "shutn@bk.com",
-            "projects": [6, 7]}
-        self.users_fake = {
-            "id": 1,
-            "username": "Fucklock",
-            "firstname": "Sk",
-            "lastname": "Fg",
-            "email": "sh@bk.cm",
-            "projects": [0]}
+    def setUp(self) -> None:
+        self.url = '/api/projects/'
+        self.projects = {'id': "2", 'name': 'Проект Val_1 + Пономарева_3'}
+        self.projects_id = '2'
+        self.projects_fake = {'id': "2", 'name': 'Проект Val_1 + Пономарева_3'}
         self.format = 'json'
-        self.login = 'admin'
-        self.password = 'admin'
-        self.admin = User.objects.create_superuser(self.login, 'admin@mail.ru', self.password)
-        self.user = User.objects.create(**self.users)
+        self.login = 'dima'
+        self.password = '123'
 
-    def test_factory_get_list(self):
+
+    # Тестирование с помощью класса APIRequestFactory
+
+    def test_factory_client_get_list(self):
         factory = APIRequestFactory()
-        request = factory.get(self.url)
+        request = factory.get(self.url, format=self.format)
         view = UserViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_factory_create_guest(self):
-        factory = APIRequestFactory()
-        request = factory.post(self.url, self.users, format=self.format)
-        view = UserViewSet.as_view({'post': 'create'})
-        response = view(request)
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+    # Тестирование с помощью класса APIClient
 
-    def test_factory_create_admin(self):
-        factory = APIRequestFactory()
-        request = factory.post(self.url, self.users, format=self.format)
-        force_authenticate(request, self.admin)
-        view = UserViewSet.as_view({'post': 'create'})
-        response = view(request)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    def test_api_update_guest(self):
+        client = APIClient()
+        response = client.put(f'{self.url}{self.projects_id}/', **self.projects)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_api_client_detail(self):
-        client = APIClient
-        response = client.get(f'{self.url}{self.user.id}/')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    def test_api_client_update_guest(self):
-        client = APIClient
-        response = client.put(f'{self.url}{self.user.id}/', **self.users_fake)
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-
-    def test_api_client_create_admin(self):
-        client = APIClient
-        client.login(self.admin)
-        response = client.put(f'{self.url}{self.user.id}/', **self.users_fake, format=self.format)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.users.refresh_from_db()
-        self.assertEqual(self.users.id, self.users_fake.get('id'))
-        self.assertEqual(self.users.username, self.users_fake.get('username'))
-        self.assertEqual(self.users.firstname, self.users_fake.get('firstname'))
-        self.assertEqual(self.users.lastname, self.users_fake.get('lastname'))
-        self.assertEqual(self.users.email, self.users_fake.get('email'))
-        self.assertEqual(self.users.projects, self.users_fake.get('projects'))
-
-        client.logout()
-
-    def tearDown(self):
+    def tearDown(self) -> None:
         pass
 
 
-class TestMath(APISimpleTestCase):
-
-    def test_sqrt(self):
-        import math
-        response = math.sqrt(4)
-        self.assertEqual(response, 2)
-
-
-class TestProject(APITestCase):
-
-    def setUp(self):
-        self.users_dict = {'id': 1, "username": "FuckingSherlock", "firstname": "Sherlock",
-                           "lastname": "Fucking", "email": "shutn@bk.com"}
-        self.url = '/api/todos/'
+# Тестирование с помощью APITestCase
+class TestTodo(APITestCase):
+    def setUp(self) -> None:
+        self.url = '/api/todo/'
+        self.url2 = '/api/projects/'
+        self.projects = {'id': "2", 'name': 'Проект Val_1 + Пономарева_3'}
+        self.projects_id = '2'
+        self.projects_fake = {'id': "2", 'name': 'Проект Val_1 + Пономарева_3'}
         self.format = 'json'
-        self.login = 'admin'
-        self.password = 'admin'
-        self.admin = User.objects.create_superuser(self.login, 'admin@mail.ru', self.password)
-        # self.users = CustomUser.objects.create(**self.users_dict)
-        self.users = User.objects.create(**self.users_dict)
-        print(self.users)
-        self.projects_dict = {'url': 'urllll', 'id': 1, 'name': 'any', 'users': self.users}
-        self.projects = Project.objects.create(**self.projects_dict)
-        self.todo = {'text': 'some TODO', 'project': self.projects, 'user': self.admin}
-        self.todos = ToDo.objects.create(**self.projects_dict)
+        self.login = 'dima'
+        self.password = '123'
 
     def test_api_test_case_list(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    # def test_api_test_case_update_admin(self):
+    def test_api_test_case_update_admin(self):
+        self.client.login(username='dima', password='123')
+        response = self.client.put(f'{self.url2}{self.projects_id}/', self.projects_fake)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    # def test_api_
+    def test_mixer(self):
+        proj = mixer.blend(Project, link='url')
+        response = self.client.get(f'{self.url2}{proj.id}/', self.projects_fake)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(proj.link, 'url')
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         pass

@@ -41,10 +41,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'users',
+    'mixer',
     'corsheaders',
     # 'drf_yasg',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
+    # 'test_models',
 ]
 
 MIDDLEWARE = [
