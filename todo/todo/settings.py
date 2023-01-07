@@ -43,10 +43,10 @@ INSTALLED_APPS = [
     'users',
     'mixer',
     'corsheaders',
-    # 'drf_yasg',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
-    # 'test_models',
+    'userapp',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -151,5 +151,9 @@ RREST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    ]
+    ],
+    # 'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
+    # 'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.QueryParameterVersioning',
+    # 'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
 }
