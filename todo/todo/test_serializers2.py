@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from test_models import User, Project, ToDo
+from .test_models import User, Project, ToDo
 
 
 class UserSerializer(serializers.Serializer):

@@ -4,7 +4,7 @@ from rest_framework import serializers
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
 
-from test_models import User
+from .test_models import User
 
 
 class UserSerializer(serializers.Serializer):

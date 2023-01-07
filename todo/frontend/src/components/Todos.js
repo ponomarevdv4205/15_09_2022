@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const TodoItem = ({todo}) => {
+const TodoItem = ({ todo }) => {
     return (
         <tr>
             <td>
@@ -17,7 +17,8 @@ const TodoItem = ({todo}) => {
     )
 }
 
-const TodoList = ({todos}) => {
+const TodoList = ({ todos }) => {
+
     return (
         <table>
             <th>Project</th>
