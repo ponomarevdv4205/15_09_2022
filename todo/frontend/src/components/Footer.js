@@ -6,7 +6,7 @@ const Footer = () => {
         <div class="footer">
             <div class="footer_center__bottom container">
                 <div class="footer_bottom_item">
-                    <p>Все права защищены &copy; Дмитрий Пономарев, 2022г.</p>
+                    <p>Все права защищены &copy; Дмитрий Пономарев, 2023г.</p>
                 </div>
             </div>
         </div>

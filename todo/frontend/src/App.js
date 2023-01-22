@@ -1,22 +1,3 @@
-//    render () { # ОФОРМЛЕНИЕ
-//        return (
-//            <div>
-//                <Menu />
-//
-//                <div class="div__right container">
-//                    <div class="what-we-do container">
-//                        <h3 class="h3">Список пользователей:</h3>
-//                        <div class="elements">
-//                            <UserList users={this.state.users} />
-//                        </div>
-//                    </div>
-//                </div>
-//
-//                <Footer />
-//            </div>
-//        )
-//    }
-
 import logo from './logo.svg';
 import './App.css';
 import React from "react";
@@ -28,20 +9,66 @@ import TodoProject from './components/Todos';
 import TodoList from './components/Todos';
 import LoginForm from './components/Auth';
 import Footer from './components/Footer';
+import ProjectForm from './components/ProjectForm';
+import ToDoForm from './components/ToDoForm';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import { BrowserRouter, Route, Routes, Link, Navigate } from "react-router-dom"
+import { BrowserRouter, Route, Routes, Link, Navigate, Switch, Redirect } from "react-router-dom"
 
 class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             'users': [],
-//            'tabs': [],
             'projects': [],
             'todos': [],
             'token': [],
         }
+    }
+
+
+    delete_project(id) {
+        const headers = this.get_headers()
+        axios.delete(`http://127.0.0.1:8000/api/projects/${id}`, {headers})
+            .then(response => {
+                this.load_data()
+            })
+            .catch(error => {
+                console.log(error)
+                this.setState({projects: []})
+        })
+    }
+
+    delete_todo(id){
+        const headers = this.get_headers()
+        axios.delete(`http://127.0.0.1:8000/api/todo/${id}`, {headers})
+            .then(response => {
+               this.load.data()
+            }).catch(error => {
+            this.setState({todos:[]})
+        })
+    }
+
+    create_project(name, users){
+        const headers = this.get_headers()
+        const data = {name: name, users: users}
+        axios.post(`http://127.0.0.1:8000/api/projects/`,data, {headers})
+            .then(response => {
+               this.load.data()
+            }).catch(error => {
+            this.setState({projects:[]})
+        })
+    }
+
+    create_todo(text, user, project){
+        const headers = this.get_headers()
+        const data = {text: text, user: user, project: project}
+        axios.post(`http://127.0.0.1:8000/api/todo/`, data, {headers})
+             .then(response => {
+               this.load.data()
+             }).catch(error => {
+            this.setState({todos:[]})
+        })
     }
 
     get_token(username, password) {
@@ -86,7 +113,6 @@ class App extends React.Component {
 
         if (this.is_auth()) {
             headers['Authorization'] = 'Token ' + this.state.token
-//            headers['Authorization'] = 'Bearer ' + this.state.token
         }
         return headers
     }
@@ -135,15 +161,22 @@ class App extends React.Component {
        this.get_token_from_storage()
     }
 
+
     render() {
         return (
             <div>
                 {this.is_auth() ? <div>{this.state.username}<br /><button onClick={() => this.logout()}>Logout</button></div> : <LoginForm get_token={(username, password) => this.get_token(username, password)} />}
                 <BrowserRouter>
                     <nav>
-                        {/* <li>
-                            <Link to='/login'>Login</Link>
-                        </li> */}
+                    <div class="top">
+                    <div class="container top__box">
+                    <div class="top__info">
+                    <h1 class="zag__level__1">Web-сервис для работы с ToDo-заметками</h1>
+                        <p class="text">
+                            Учебный проект на базе Django REST framework
+                        </p>
+
+                        <ul class="menu-bar">
                         <li>
                             <Link to='/'>Users</Link>
                         </li>
@@ -153,7 +186,14 @@ class App extends React.Component {
                         <li>
                             <Link to='/todos'>Todos</Link>
                         </li>
+                        </ul>
+
+                        </div>
+                        </div>
+                        </div>
+
                     </nav>
+
                     <Routes>
 
                         <Route exect path='/' element={<Navigate to='/users' />} />
@@ -163,14 +203,15 @@ class App extends React.Component {
                         </Route>
 
                         <Route path='/projects'>
-                            <Route index element={<ProjectList projects={this.state.projects} />} />
+                            <Route index element = {<ProjectList projects={this.state.projects} users={this.state.users} delete_project={(id)=>this.delete_project(id)}/>} />
+                            <Route path='/projects/create' element={<ProjectForm users={this.state.users} create_project={(name, users) => this.create_project(name, users)}/>} />
                             <Route path=':projectId' element={<TodoProject todos={this.state.todos} />} />
                         </Route>
-                        <Route path='/todos' element={<TodoList todos={this.state.todos} />} />
-                        {/* <Route exect path='/projects' element={<ProjectList projects={this.state.projects} />} /> */}
 
-                        {/* <Route exect path='/login' element={<LoginForm get_token={(username, password) => this.get_token(username, password)} />} /> */}
-
+                        <Route exact path='/todos' element={
+                            <TodoList todos={this.state.todos} delete_todo={(id) => this.delete_todo(id)}/>} />
+                            <Route exact path='/todos/create' element={
+                            <ToDoForm projects={(this.state.projects)} users={this.state.users} create_todo={(text, user, project) => this.create_todo(text, user, project)}/>} />
 
                         <Route path='*' element={<NotFound404 />} />
                         <Route path="/projects2" element={<Navigate replace to="/projects" />} />
@@ -178,7 +219,6 @@ class App extends React.Component {
 
                 </BrowserRouter>
 
-                {/* <MenuList tabs={this.state.tabs} /> */}
                 <Footer />
             </div>
         )
