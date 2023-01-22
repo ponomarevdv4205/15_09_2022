@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    # 'django.contrib.staticfiles',
     'rest_framework',
     'django_filters',
     'users',
@@ -49,7 +48,6 @@ INSTALLED_APPS = [
     'drf_yasg',
     'django.contrib.staticfiles', # Required for GraphiQL
     'graphene_django',
-    # 'react',
 ]
 
 MIDDLEWARE = [
@@ -68,7 +66,7 @@ ROOT_URLCONF = 'todo.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['../frontend/build'],
+        'DIRS': [BASE_DIR/'frontend/build/static'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,7 +126,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = ('../frontend/build/static',)
+STATICFILES_DIRS = (BASE_DIR/'frontend/build/static',)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

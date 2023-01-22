@@ -1,22 +1,3 @@
-//    render () { # ОФОРМЛЕНИЕ
-//        return (
-//            <div>
-//                <Menu />
-//
-//                <div class="div__right container">
-//                    <div class="what-we-do container">
-//                        <h3 class="h3">Список пользователей:</h3>
-//                        <div class="elements">
-//                            <UserList users={this.state.users} />
-//                        </div>
-//                    </div>
-//                </div>
-//
-//                <Footer />
-//            </div>
-//        )
-//    }
-
 import logo from './logo.svg';
 import './App.css';
 import React from "react";
@@ -39,7 +20,6 @@ class App extends React.Component {
         super(props)
         this.state = {
             'users': [],
-//            'tabs': [],
             'projects': [],
             'todos': [],
             'token': [],
@@ -133,7 +113,6 @@ class App extends React.Component {
 
         if (this.is_auth()) {
             headers['Authorization'] = 'Token ' + this.state.token
-//            headers['Authorization'] = 'Bearer ' + this.state.token
         }
         return headers
     }
@@ -181,29 +160,6 @@ class App extends React.Component {
     componentDidMount() {
        this.get_token_from_storage()
     }
-
-
-
-
-//    render () { # ОФОРМЛЕНИЕ
-//        return (
-//            <div>
-//                <Menu />
-//
-//                <div class="div__right container">
-//                    <div class="what-we-do container">
-//                        <h3 class="h3">Список пользователей:</h3>
-//                        <div class="elements">
-//                            <UserList users={this.state.users} />
-//                        </div>
-//                    </div>
-//                </div>
-//
-//                <Footer />
-//            </div>
-//        )
-//    }
-
 
 
     render() {
@@ -263,7 +219,6 @@ class App extends React.Component {
 
                 </BrowserRouter>
 
-                {/* <MenuList tabs={this.state.tabs} /> */}
                 <Footer />
             </div>
         )
